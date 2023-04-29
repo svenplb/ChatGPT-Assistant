@@ -1,27 +1,32 @@
 import os
 import time
-
 import playsound
 import speech_recognition as sr
 from gtts import gTTS
 
+# funktino die den text aussprechen kann
+
 
 def speak(text):
     tts = gTTS(text=text, lang="en")
-    filename = "C:/Users/alex0/OneDrive/Dokumente/Python_Übungen/Projekte/ChatCpt_Sprachasistent/ChatGPT-Sprachassistent/alex_text/voice.mp3"
+    # filname localisieren => ein fehler
+    filename = "./files/voice.mp3"
     tts.save(filename)
     playsound.playsound(filename)
-    try:
-        file = open(filename, 'r')
-        # Do something with the file
-        # Close the file
-        file.close()
-    except Exception as a:
-        print()
 
 
+def speack_text(text):
+    with open("./files/output.txt", 'r') as f:
+        text = f.read()
+    tts = gTTS(text)
+    tts.save('./files/output.mp3')
+    os.system('mpg321 output.mp3')
+
+
+# nimmt die audio von dem laptop mic
 def get_auido():
     r = sr.Recognizer()
+    # microphone anzapfen und hören
     with sr.Microphone() as source:
         auido = r.listen(source)
         said = ""
@@ -31,9 +36,16 @@ def get_auido():
             print(said)
         except Exception as e:
             print("Exeption "+str(e))
-
     return said
 
 
-speak("hello wie geht es dir")
-get_auido()
+text = get_auido()
+
+# Open file in schreib modus
+# filname localisieren => ein fehler
+with open("./files/output.txt", "w") as f:
+    # Reinschreiben was man gesagt hat
+    f.write(text)
+
+# wieder den text ausgeben
+speack_text(text)
