@@ -1,45 +1,36 @@
-# ziel ist es mit dem microphon daten einzulsen diese dann
-# umändern to text
-# den text dann in chatcpt rein und wieder zurück => in der funktion
-# dann weider zurück geben mit der sprache
+import os
+import time
 
-import pyaudio
-import chardet
-import whisper
+import playsound
+import speech_recognition as sr
+from gtts import gTTS
 
-# Definiere Parameter für die Audioaufnahme
-chunk = 1024
-sample_format = pyaudio.paInt16
-channels = 2
-rate = 44100
 
-# Erstelle ein PyAudio-Objekt
-p = pyaudio.PyAudio()
+def speak(text):
+    tts = gTTS(text=text, lang="en")
+    filename = "voice.mp3"
+    tts.save(filename)
+    playsound.playsound(filename)
 
-# Öffne das Mikrofon und starte die Aufnahme
-stream = p.open(format=sample_format,
-                channels=channels,
-                rate=rate,
-                frames_per_buffer=chunk,
-                input=True)
 
-# Aufnahme starten
-print("Die Aufnahme läuft...")
+def get_auido():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        auido = r.listen(source)
+        said = ""
 
-while True:
-    data = stream.read(chunk)
-    # Gib den Audioeingang in der Kommandozeile aus
-    try:
-        print(data.decode('utf-8'))
-    except UnicodeDecodeError:
-        print("Fehler: Daten konnten nicht als UTF-8 dekodiert werden.")
+        try:
+            said = r.recognize_google(auido)
+            print(said)
+        except Exception as e:
+            print("Exeption "+str(e))
 
-    count = 0
-    count += 1
-    if count == 100:
-        break
+    return said
 
-# Beende die Aufnahme
-stream.stop_stream()
-stream.close()
-p.terminate()
+
+try:
+    speak("hello")
+except Exception as e:
+    print(e)
+
+# get_auido()
