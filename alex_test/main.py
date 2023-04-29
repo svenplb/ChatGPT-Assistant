@@ -8,9 +8,16 @@ from gtts import gTTS
 
 def speak(text):
     tts = gTTS(text=text, lang="en")
-    filename = "voice.mp3"
+    filename = "C:/Users/alex0/OneDrive/Dokumente/Python_Übungen/Projekte/ChatCpt_Sprachasistent/ChatGPT-Sprachassistent/alex_text/voice.mp3"
     tts.save(filename)
     playsound.playsound(filename)
+    try:
+        file = open(filename, 'r')
+        # Do something with the file
+        # Close the file
+        file.close()
+    except Exception as a:
+        print()
 
 
 def get_auido():
@@ -28,9 +35,5 @@ def get_auido():
     return said
 
 
-try:
-    speak("hello")
-except Exception as e:
-    print(e)
-
-# get_auido()
+speak("hello wie geht es dir")
+get_auido()
