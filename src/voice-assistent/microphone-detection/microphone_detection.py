@@ -1,11 +1,9 @@
 import os
-import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS
 
-# funktino die den text aussprechen kann
-
+# Funktion, die den Text aussprechen kann
 
 def speak(text):
     tts = gTTS(text=text, lang="en")
@@ -15,18 +13,17 @@ def speak(text):
     playsound.playsound(filename)
 
 
-def speack_text(text):
+def speak_text(text):
     with open("./files/output.txt", 'r') as f:
         text = f.read()
     tts = gTTS(text)
     tts.save('./files/output.mp3')
     os.system('mpg321 output.mp3')
 
-
-# nimmt die audio von dem laptop mic
-def get_auido():
+# nimmt das audio vom laptop mic
+def get_audio():
     r = sr.Recognizer()
-    # microphone anzapfen und hören
+    # mic anzapfen und hören
     with sr.Microphone() as source:
         auido = r.listen(source)
         said = ""
@@ -39,13 +36,13 @@ def get_auido():
     return said
 
 
-text = get_auido()
+text = get_audio()
 
 # Open file in schreib modus
-# filname localisieren => ein fehler
+# filename localisieren => ein fehler
 with open("./files/output.txt", "w") as f:
     # Reinschreiben was man gesagt hat
     f.write(text)
 
 # wieder den text ausgeben
-speack_text(text)
+speak_text(text)
