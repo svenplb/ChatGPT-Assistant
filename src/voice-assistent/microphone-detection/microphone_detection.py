@@ -3,7 +3,7 @@ import playsound
 import speech_recognition as sr
 import whisper
 from gtts import gTTS
-import chatcpt
+import chatgpt
 
 
 # --------------------------------------------- funktionen ---------------------------------------------#
@@ -69,7 +69,7 @@ except Exception as e:
 try:
     # hier zur andern klasse dann den chatcpt text zurück geben
     # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
-    chatcpt_text = chatcpt.output(text)
+    chatcpt_text = chatgpt.output(text)
 
     # Open file in schreib modus
     # überprüfen ob die eingabe stimmt
