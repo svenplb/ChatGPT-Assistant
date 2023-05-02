@@ -1,26 +1,18 @@
 import os
-import time
 import playsound
 import speech_recognition as sr
+import whisper
 from gtts import gTTS
+import chatcpt
 
-# funktino die den text aussprechen kann
 
-
-def speak(text):
-    tts = gTTS(text=text, lang="en")
+# --------------------------------------------- funktionen ---------------------------------------------#
+def speak(Input_Text):
+    tts = gTTS(text=Input_Text, lang="en")
     # filname localisieren => ein fehler
-    filename = "./files/voice.mp3"
+    filename = "voice.mp3"
     tts.save(filename)
     playsound.playsound(filename)
-
-
-def speack_text(text):
-    with open("./files/output.txt", 'r') as f:
-        text = f.read()
-    tts = gTTS(text)
-    tts.save('./files/output.mp3')
-    os.system('mpg321 output.mp3')
 
 
 # nimmt die audio von dem laptop mic
@@ -34,18 +26,60 @@ def get_auido():
         try:
             said = r.recognize_google(auido)
             print(said)
-        except Exception as e:
-            print("Exeption "+str(e))
+        except Exception as error:
+            print("Exeption " + str(error))
     return said
 
 
-text = get_auido()
+# whisper funktionen
+def text_to_speech():
+    with open("chatcpt_output.txt", 'r') as string:
+        input_text = string.read()
+    tts = gTTS(input_text)
+    tts.save('output.mp3')
+    os.system('mpg321 output.mp3')
 
-# Open file in schreib modus
-# filname localisieren => ein fehler
-with open("./files/output.txt", "w") as f:
-    # Reinschreiben was man gesagt hat
-    f.write(text)
 
-# wieder den text ausgeben
-speack_text(text)
+def speech_to_text():
+    # tiny, base, small, medium, large einstellbar
+    model = whisper.load_model("base")
+    options = {"language": "de"}
+
+    res = model.transcribe(
+        "", **options)
+
+    print(res["text"])
+
+
+# --------------------------------------------- main code ---------------------------------------------#
+print("Anfang des codes")
+
+try:
+    text = get_auido()
+    # Open file in schreib modus
+    # überprüfen ob die eingabe stimmt
+    with open("output.txt", "w") as f:
+        # Reinschreiben was man gesagt hat
+        f.write(text)
+
+except Exception as e:
+    print(e)
+
+# classe chatcpt den text geben und chat cpt fragen mit dem text
+try:
+    # hier zur andern klasse dann den chatcpt text zurück geben
+    # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
+    chatcpt_text = chatcpt.output(text)
+
+    # Open file in schreib modus
+    # überprüfen ob die eingabe stimmt
+    with open("chatcpt_output.txt", "w") as f:
+        # Reinschreiben was man gesagt hat
+        f.write(chatcpt_text)
+
+except Exception as e:
+    print(e)
+
+# die nachricht welche man von chatcpt erhalten hat text_to_speech
+text_to_speech()
+print("Ende des Programmes")
