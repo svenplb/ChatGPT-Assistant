@@ -17,6 +17,9 @@ def speak(Input_Text):
 
 # nimmt die audio von dem laptop mic
 def get_auido():
+    # hier vielleicht noch einen user input um die get_audio zu starten und um sie zu beenden
+    # seite: https://www.pythonforbeginners.com/basics/how-to-detect-keypress-in-python
+
     r = sr.Recognizer()
     # microphone anzapfen und hören
     with sr.Microphone() as source:
