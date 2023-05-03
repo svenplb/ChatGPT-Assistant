@@ -81,5 +81,5 @@ except Exception as e:
     print(e)
 
 # die nachricht welche man von chatcpt erhalten hat text_to_speech
-# text_to_speech()
+text_to_speech()
 print("Ende des Programmes")
