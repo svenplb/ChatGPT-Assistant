@@ -1,9 +1,8 @@
 import os
 import playsound
 import speech_recognition as sr
-import whisper
+# import whisper # hier gibt es einen fehler
 from gtts import gTTS
-import chatgpt
 
 
 # --------------------------------------------- funktionen ---------------------------------------------#
@@ -17,9 +16,6 @@ def speak(Input_Text):
 
 # nimmt die audio von dem laptop mic
 def get_auido():
-    # hier vielleicht noch einen user input um die get_audio zu starten und um sie zu beenden
-    # seite: https://www.pythonforbeginners.com/basics/how-to-detect-keypress-in-python
-
     r = sr.Recognizer()
     # microphone anzapfen und hören
     with sr.Microphone() as source:
@@ -40,9 +36,9 @@ def text_to_speech():
         input_text = string.read()
     tts = gTTS(input_text)
     tts.save('output.mp3')
-    os.system('mpg321 output.mp3')
 
 
+"""
 def speech_to_text():
     # tiny, base, small, medium, large einstellbar
     model = whisper.load_model("base")
@@ -52,7 +48,7 @@ def speech_to_text():
         "", **options)
 
     print(res["text"])
-
+"""
 
 # --------------------------------------------- main code ---------------------------------------------#
 print("Anfang des codes")
@@ -70,10 +66,11 @@ except Exception as e:
 
 # classe chatcpt den text geben und chat cpt fragen mit dem text
 try:
+    # andere klasse
+    import chatcpt
     # hier zur andern klasse dann den chatcpt text zurück geben
-    # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
-    chatcpt_text = chatgpt.output(text)
-
+    chatcpt_text = chatcpt.output(text)  # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
+    print(chatcpt_text)
     # Open file in schreib modus
     # überprüfen ob die eingabe stimmt
     with open("chatcpt_output.txt", "w") as f:

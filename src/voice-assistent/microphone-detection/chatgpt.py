@@ -12,21 +12,23 @@ messages = [
 
 # funktione die dann an main.py die antwort zurück gibt
 def output(text):
-    antwort_main_funktion = text  # hier den text welcher von main.py kommt
-    if antwort_main_funktion:
-        antwort_main_funktion.append(
-            {"role": "user", "content": antwort_main_funktion},
-        )
-        chatcpt_antwort = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", messages=antwort_main_funktion
-        )
+    while True:
+        message = text
+        if message:
+            messages.append(
+                {"role": "user", "content": message},
+            )
+            chat = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo", messages=messages
+            )
 
-    antwort = chatcpt_antwort.choices[0].message.content
-    antwort_main_funktion.append({"role": "assistant", "content": antwort})
-    return antwort
+        reply = chat.choices[0].message.content
+        # print(f"ChatGPT: {reply}")
+        messages.append({"role": "assistant", "content": reply})
+        return reply
 
 
-'''
+"""
 # test ob chat cpt antworten funktionieren
 while True:
     message = input("User : ")
@@ -41,4 +43,8 @@ while True:
     reply = chat.choices[0].message.content
     print(f"ChatGPT: {reply}")
     messages.append({"role": "assistant", "content": reply})
-'''
+    break
+"""
+
+text = output("1+1")
+# print(text)
