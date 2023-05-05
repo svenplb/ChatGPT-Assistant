@@ -9,7 +9,7 @@ from gtts import gTTS
 def speak():
     tts = gTTS(text=chatcpt_text, lang="en")
     # filname localisieren => ein fehler
-    filename = "output.mp3"
+    filename = "./files/output.mp3"
     # tts.save(filename)
     playsound.playsound(filename)
 
@@ -32,10 +32,10 @@ def get_auido():
 
 # whisper funktionen
 def text_to_speech():
-    with open("chatcpt_output.txt", 'r') as string:
+    with open("./files/chatcpt_output.txt", 'r') as string:
         input_text = string.read()
     tts = gTTS(input_text)
-    tts.save('output.mp3')
+    tts.save('./files/output.mp3')
     speak()
 
 
@@ -58,7 +58,7 @@ try:
     text = get_auido()
     # Open file in schreib modus
     # überprüfen ob die eingabe stimmt
-    with open("output.txt", "w") as f:
+    with open(".\files\output.txt", "w") as f:
         # Reinschreiben was man gesagt hat
         f.write(text)
 
@@ -73,9 +73,9 @@ try:
     # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
     chatcpt_text = chatgpt.output(text)
     print(chatcpt_text)
-    # Open file in schreib modus
+    # Open file in schreib moduss
     # überprüfen ob die eingabe stimmt
-    with open("chatcpt_output.txt", "w") as f:
+    with open("./files/chatcpt_output.txt", "w") as f:
         # Reinschreiben was man gesagt hat
         f.write(chatcpt_text)
 
