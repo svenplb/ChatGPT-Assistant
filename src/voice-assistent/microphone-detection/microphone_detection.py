@@ -6,11 +6,11 @@ from gtts import gTTS
 
 
 # --------------------------------------------- funktionen ---------------------------------------------#
-def speak(Input_Text):
-    tts = gTTS(text=Input_Text, lang="en")
+def speak():
+    tts = gTTS(text=chatcpt_text, lang="en")
     # filname localisieren => ein fehler
-    filename = "voice.mp3"
-    tts.save(filename)
+    filename = "output.mp3"
+    # tts.save(filename)
     playsound.playsound(filename)
 
 
@@ -36,6 +36,7 @@ def text_to_speech():
         input_text = string.read()
     tts = gTTS(input_text)
     tts.save('output.mp3')
+    speak()
 
 
 """
@@ -67,9 +68,10 @@ except Exception as e:
 # classe chatcpt den text geben und chat cpt fragen mit dem text
 try:
     # andere klasse
-    import chatcpt
+    import chatgpt
     # hier zur andern klasse dann den chatcpt text zurück geben
-    chatcpt_text = chatcpt.output(text)  # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
+    # hier ist ein fehler und ich weiß nicht wie es geht mit den klassen
+    chatcpt_text = chatgpt.output(text)
     print(chatcpt_text)
     # Open file in schreib modus
     # überprüfen ob die eingabe stimmt
