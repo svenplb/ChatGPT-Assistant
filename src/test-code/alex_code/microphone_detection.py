@@ -58,8 +58,8 @@ except Exception as e:
 
 # give classe chatcpt the text and ask chat cpt for the answer
 try:
-    import chatgpt
-    chatgpt_text = chatgpt.output(main_text)
+    import chatgpt_alex
+    chatgpt_text = chatgpt_alex.output(main_text)
     print(chatgpt_text)
     # Open file in write mode
     with open("chatgpt_output.txt", "w") as f:

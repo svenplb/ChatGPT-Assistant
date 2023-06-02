@@ -1,5 +1,5 @@
 import openai
-from api_key import GET_API_KEY
+from api_key_alex import GET_API_KEY
 
 # info: der key funktioniert nicht sonst würde er funktionieren der code
 # openai.api_key = GPT_API_KEY # hier ist ein fehler
