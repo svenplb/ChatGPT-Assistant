@@ -1,25 +1,44 @@
-# go to the api_key.py file to use your own key.
-
 import openai
 from api_key import API_KEY
 import pyttsx3
+import speech_recognition as sr
 
-userInput = input("user: ")
-inputPrompt = userInput + ". Talk to me like im a dog in Shakespeare style."
 openai.api_key = API_KEY
-#text to speech engine
 engine = pyttsx3.init()
 
-response = openai.Completion.create(
-  model="text-davinci-003",
-  prompt= inputPrompt,
-  # "length" of output
-  max_tokens=50,
-  temperature=0
-)
-text = response.choices[0].text.strip()
-print("assistent: ", text)
 
-engine.say(text)
+def listen():
+  r = sr.Recognizer()
+  with sr.Microphone() as source:
+    r.adjust_for_ambient_noise(source)
+    print("Sage etwas...")
+    audio = r.listen(source)
+  try:
+    text = r.recognize_google(audio, language='de-DE')
+    print("User: ", text)
+    return text
+  except sr.UnknownValueError:
+    engine.say("Sorry, ich habe dich nicht verstanden. Bitte wiederhole.")
+  except sr.RequestError as e:
+    engine.say("Es gab einen Fehler. Bitte überprüfe deine Internetverbindung.")
 
-engine.runAndWait()
+
+while True:
+    userInput = listen()
+    if userInput == "exit":
+      print("left the conversation")
+      break
+
+    inputPrompt = userInput + ""
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=inputPrompt,
+        max_tokens=50,
+        temperature=0
+    )
+    text = response.choices[0].text.strip()
+    print("assistant: ", text)
+    engine.say(text)
+    engine.runAndWait()
+
+
