@@ -32,7 +32,7 @@ def get_audio():
                 print("Error", error)
                 break
 
-    return output_text
+    return output_text.strip()
 
 
 # whisper funktionen
